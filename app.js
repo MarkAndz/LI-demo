@@ -1,4 +1,8 @@
 require('dotenv').config();
+const fs    = require('fs');
+const https = require('https');
+const http  = require('http');
+const path  = require('path');
 const express = require('express');
 const cors    = require('cors');
 
@@ -71,6 +75,7 @@ app.put('/comments/:id', (req, res) => {
   console.log('Updated comment:', comments[idx]);
   res.json(comments[idx]);
 });
+
 // DELETE /comments/:id
 app.delete('/comments/:id', (req, res) => {
   const idBefore = comments.length;
@@ -82,7 +87,16 @@ app.delete('/comments/:id', (req, res) => {
   res.status(204).end();
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
-});
+// load cert/key
+const options = {
+    key:  fs.readFileSync(path.join(__dirname, 'certs', 'key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'certs', 'cert.pem')),
+};
+
+//https on port 8000
+https.createServer(options, app)
+    .listen(8000, () => {
+        console.log('HTTPS listening on https://localhost:8000');
+    });
+
+

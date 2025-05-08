@@ -1,5 +1,7 @@
 const form = document.getElementById('commentForm');
 const list = document.getElementById('commentList');
+
+
 let comments = [];
 
 //Render comments
