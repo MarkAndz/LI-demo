@@ -180,23 +180,29 @@ async function loadComments() {
     renderComments();
 }
 
-//Render comment list
+
+//Render comment list (with emotion)
 function renderComments() {
-    list.innerHTML = '';
-    comments.forEach(c => {
-        const li = document.createElement('li');
-        li.innerHTML = `
+        list.innerHTML = '';
+        comments.forEach(c => {
+                const li = document.createElement('li');
+                li.innerHTML = `
       <strong>${c.text}</strong><br>
       <em>Sentiment:</em> ${c.sentiment.label}
-      (score: ${c.sentiment.score.toFixed(2)})
+      (score: ${c.sentiment.score.toFixed(2)})<br>
+      <em>Emotions:</em> ${
+                    Object.entries(c.emotion)
+                      .map(([e, v]) => `${e}: ${v.toFixed(2)}`)
+                  .join(', ')
+              }<br>
       <div class="controls">
         <button data-action="edit" data-id="${c.id}">Edit</button>
         <button data-action="delete" data-id="${c.id}">Delete</button>
       </div>
     `;
-        list.appendChild(li);
-    });
-}
+                list.appendChild(li);
+            });
+    }
 
 //Add new comment
 form.addEventListener('submit', async e => {

@@ -134,31 +134,39 @@ app.post(
                 .status(400)
                 .json({ error: 'Comment must be at least 50 characters long' });
         }
+                // NLU: sentiment + emotion analysis
+                    let sentiment = { label: 'neutral', score: 0 };
+                let emotion   = { sadness:0, joy:0, fear:0, disgust:0, anger:0 };
+                try {
+                        const nluRes = await nlu.analyze({
+                                text: trimmed,
+                                features: {
+                                  sentiment: {},
+                                  emotion: {}    // ← request emotion
+                                }
+                        });
 
-        // Sentiment analysis
-        let sentiment = { label: 'neutral', score: 0 };
-        try {
-            const nluRes = await nlu.analyze({
-                text: trimmed,
-                features: { sentiment: {} }
-            });
-            const doc = nluRes.result.sentiment.document;
-            sentiment = { label: doc.label, score: doc.score };
-        } catch (err) {
-            console.warn('NLU error, defaulting to neutral:', err.message);
-        }
+                            // extract sentiment
+                               const docSent = nluRes.result.sentiment.document;
+                        sentiment = { label: docSent.label, score: docSent.score };
+
+                            // extract emotion breakdown
+                                emotion = nluRes.result.emotion.document.emotion;
+                    } catch (err) {
+                        console.warn('NLU error, defaulting to neutral/emotion zero:', err.message);
+                    }
 
         // Assign IDs
         const cid = db.get('nextCommentId').value();
         db.update('nextCommentId', n => n + 1).write();
 
-        // Persist
-        const comment = {
-            id: cid,
-            projectId: req.project.id,
-            text: trimmed,
-            sentiment
-        };
+                const comment = {
+                        id: cid,
+                        projectId: req.project.id,
+                        text: trimmed,
+                        sentiment,
+                    emotion      // ← store emotion object
+                };
         db.get('comments').push(comment).write();
 
         res.status(201).json(comment);

@@ -7,6 +7,22 @@
         "label": "negative",
         "score": -0.916368
       }
+    },
+    {
+      "id": 5,
+      "projectId": 4,
+      "text": "Hello what is happening here guys? I'm not happy with the development of this app.",
+      "sentiment": {
+        "label": "negative",
+        "score": -0.916368
+      },
+      "emotion": {
+        "sadness": 0.125062,
+        "joy": 0.554547,
+        "fear": 0.106344,
+        "disgust": 0.017405,
+        "anger": 0.053057
+      }
     }
   ],
   "nextId": 2,
@@ -15,8 +31,13 @@
       "id": 1,
       "name": "Starter",
       "passwordHash": "$2b$12$TDjcU.pLcEVfRZuYn7bVeOn9pbQ2JYGz3QWqDICI/aU27AxT.Btfm"
+    },
+    {
+      "id": 4,
+      "name": "Bandymas",
+      "passwordHash": "$2b$12$xLyh5MU6zpzQofMpyfQTlOmTFgRnbG0fAqhROwm6eJvRbtDSb76sq"
     }
   ],
-  "nextProjectId": 4,
-  "nextCommentId": 5
+  "nextProjectId": 5,
+  "nextCommentId": 6
 }
