@@ -2,6 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const cors    = require('cors');
 
+
+const { IamAuthenticator } = require('ibm-watson/auth');
+const NaturalLanguageUnderstandingV1 =
+    require('ibm-watson/natural-language-understanding/v1');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -9,19 +14,43 @@ app.use(express.json());
 //Static files from public
 app.use(express.static('public'));
 
-
-app.get('/', (req, res) => {
-  res.json({ message: 'API is alive!' });
+const nlu = new NaturalLanguageUnderstandingV1({
+  version: '2021-08-01',
+  authenticator: new IamAuthenticator({ apikey: process.env.IBM_NLU_APIKEY }),
+  serviceUrl:    process.env.IBM_NLU_URL,
 });
 
 let comments = [];
 let nextId   = 1;
 
-app.post('/comments', (req, res) => {
-  const comment = { id: nextId++, ...req.body };
-  comments.push(comment);
-  res.status(201).json(comment);
+app.get('/comments', (req, res) => {
+  res.json(comments);
 });
+
+app.post('/comments', async (req, res, next) => {
+    try {
+        const { text } = req.body;
+        // call IBM NLU
+            const nluRes = await nlu.analyze({
+              text,
+              features: { sentiment: {} }
+        });
+        const docSent = nluRes.result.sentiment.document;
+
+                const comment = {
+              id: nextId++,
+              text,
+              sentiment: {
+              label: docSent.label,
+                  score: docSent.score
+            }
+       };
+        comments.push(comment);
+        res.status(201).json(comment);
+      } catch (err) {
+        next(err);
+      }
+  });
 app.put('/comments/:id', (req, res) => {
   const id  = Number(req.params.id);
   const idx = comments.findIndex(c => c.id === id);
