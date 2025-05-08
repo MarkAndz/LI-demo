@@ -7,6 +7,24 @@
         "label": "negative",
         "score": -0.916368
       }
+    },
+    {
+      "id": 3,
+      "projectId": 2,
+      "text": "Hello guys, this is fun. I'm having so much fun now!!!!",
+      "sentiment": {
+        "label": "positive",
+        "score": 0.975435
+      }
+    },
+    {
+      "id": 4,
+      "projectId": 2,
+      "text": "Hello guys, this is fun. I'm having so much fun now!!!!",
+      "sentiment": {
+        "label": "positive",
+        "score": 0.975435
+      }
     }
   ],
   "nextId": 2,
@@ -15,8 +33,13 @@
       "id": 1,
       "name": "Starter",
       "passwordHash": "$2b$12$TDjcU.pLcEVfRZuYn7bVeOn9pbQ2JYGz3QWqDICI/aU27AxT.Btfm"
+    },
+    {
+      "id": 2,
+      "name": "Tikras",
+      "passwordHash": "$2b$12$pN5AzCb0tjA8LvgrlNVCdegXiORhstfRdPbckdb7ow1R/ueSsAG6W"
     }
   ],
-  "nextProjectId": 2,
-  "nextCommentId": 1
+  "nextProjectId": 3,
+  "nextCommentId": 5
 }

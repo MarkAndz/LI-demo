@@ -10,6 +10,8 @@ const projectTitleEl   = document.getElementById('projectTitle');
 const avgSentEl        = document.getElementById('avgSent');
 const form             = document.getElementById('commentForm');
 const list             = document.getElementById('commentList');
+const backBtn = document.getElementById('backBtn');
+
 
 //New project
 const newNameInput     = document.getElementById('newProjectName');
@@ -21,6 +23,18 @@ const createFeedback   = document.getElementById('createFeedback');
 let projectId = null;
 let projectPwd = '';
 let comments = [];
+
+backBtn.addEventListener('click', () => {
+    projectPassword.value = '';
+    comments = [];
+    avgSentEl.textContent = '0.00';
+
+    commentsSection.style.display = 'none';
+    projectLogin.style.display    = '';
+});
+
+
+
 
 //Create project button + validation
 createBtn.addEventListener('click', async () => {
@@ -79,24 +93,34 @@ async function loadProjects() {
 }
 loadProjects();
 
-//Join project
-joinBtn.addEventListener('click', () => {
+joinBtn.addEventListener('click', async () => {
     projectId  = projectSelect.value;
     projectPwd = projectPassword.value.trim();
+
     if (!projectPwd) {
         return alert('Please enter the project password.');
     }
 
-    //Switch views
+    const res = await fetch(`/projects/${projectId}/comments`, {
+        headers: authHeaders()
+    });
+
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        return alert(err.error || 'Invalid project or password.');
+    }
+
+    const { comments: data, averageSentiment } = await res.json();
+    comments = data;
+    avgSentEl.textContent = averageSentiment.toFixed(2);
+    renderComments();
+
     projectLogin.style.display    = 'none';
     commentsSection.style.display = '';
 
-    //Set header
     projectTitleEl.textContent = `${projectSelect.selectedOptions[0].text} — Comments`;
-
-    //Load comments
-    loadComments();
 });
+
 
 
 function authHeaders() {

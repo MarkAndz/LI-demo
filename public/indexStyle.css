@@ -109,6 +109,18 @@ li {
     min-width: 4rem;
     font-size: 0.9rem;
 }
+#backBtn {
+    margin-bottom: 1rem;
+    background: none;
+    border: none;
+    color: #007acc;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+#backBtn:hover {
+    text-decoration: underline;
+}
+
 
 
 @media (max-width: 30rem) {
