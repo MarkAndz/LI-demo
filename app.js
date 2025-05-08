@@ -180,28 +180,61 @@ app.post(
 app.put(
     '/projects/:projectId/comments/:id',
     checkProjectAuth,
-    (req, res) => {
+    async (req, res, next) => {
         const pid = req.project.id;
         const cid = Number(req.params.id);
+        const { text = '' } = req.body;
+        const trimmed = text.trim();
 
-        // Ensure it belongs to this project
-        const existing = db
-            .get('comments')
+        //Make sure comment exists
+        const existing = db.get('comments')
             .find({ id: cid, projectId: pid })
             .value();
         if (!existing) {
             return res.status(404).json({ error: 'Comment not found' });
         }
 
-        const updated = db
-            .get('comments')
+        //Enforce length requirement
+        if (trimmed.length < 50) {
+            return res
+                .status(400)
+                .json({ error: 'Comment must be at least 50 characters long' });
+        }
+
+        //Run analysis on updated text
+        let sentiment = { label: 'neutral', score: 0 };
+        let emotion   = { sadness:0, joy:0, fear:0, disgust:0, anger:0 };
+        try {
+            const nluRes = await nlu.analyze({
+                text: trimmed,
+                features: { sentiment: {}, emotion: {} }
+            });
+
+            //Extract sentiment
+            const docSent = nluRes.result.sentiment.document;
+            sentiment = { label: docSent.label, score: docSent.score };
+
+            // xtract emotion breakdown
+            emotion = nluRes.result.emotion.document.emotion;
+        } catch (err) {
+            console.warn('NLU error on update, defaulting values:', err.message);
+        }
+
+        //Persist updated comment
+        const updated = db.get('comments')
             .find({ id: cid })
-            .assign({ text: req.body.text })
+            .assign({
+                text: trimmed,
+                sentiment,
+                emotion
+            })
             .write();
 
+        //Return updated comment
         res.json(updated);
     }
 );
+
 
 
 
