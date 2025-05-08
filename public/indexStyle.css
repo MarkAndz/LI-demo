@@ -1,146 +1,251 @@
-
+/* Base and Reset */
 html {
     font-size: 16px;
+    box-sizing: border-box;
 }
-
+*, *::before, *::after {
+    box-sizing: inherit;
+}
 
 body {
     font-family: sans-serif;
     margin: 2rem auto;
     padding: 0 1rem;
     max-width: 40rem;
-    box-sizing: border-box;
+    background: #f5f5f5;
+    color: #333;
 }
 
-
+/* Headings */
 h1, h2 {
     margin-bottom: 1rem;
 }
 
-
 #projectLogin {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 1.5rem;
     margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
 }
 
-#projectLogin label {
+/* Create Project Title */
+#projectLogin h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+/* Select Project Title */
+#projectLogin h1 {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+/* Create Project Section */
+#projectCreate {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Join Project Section */
+#projectLogin label,
+#projectLogin select,
+#projectLogin input {
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+/* Form Fields */
+.field,
+#projectLogin input,
+#projectLogin select {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Labels */
+label {
     display: flex;
     flex-direction: column;
     font-weight: bold;
+    margin-bottom: 0.5rem;
 }
 
-#projectSelect,
-#projectPassword {
-    width: 100%;
-    padding: 0.5rem;
+/* Buttons (Full-Width) */
+#projectLogin button,
+#createProjectBtn,
+#joinBtn {
+    padding: 0.6rem 1.2rem;
     font-size: 1rem;
-    margin-top: 0.25rem;
-    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 100%;
 }
-#projectCreate {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+
+/* Primary (Create) */
+#createProjectBtn {
+    background: #007acc;
+    color: #fff;
 }
-#projectCreate input,
-#projectCreate button {
-    width: auto;
+#createProjectBtn:hover {
+    background: #005f99;
 }
+
+/* Success (Join) */
+#joinBtn {
+    background: #28a745;
+    color: #fff;
+}
+#joinBtn:hover {
+    background: #1f7a33;
+}
+
+/* Feedback Text */
+.feedback,
 #createFeedback {
     margin-top: 0.5rem;
     font-size: 0.9rem;
+    min-height: 1.2em;
+    color: #28a745;
 }
 
 
-form {
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
+#commentsSection {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-input[name="text"] {
-    width: 100%;
-    padding: 0.5rem;
-    margin: 0.5rem 0;
-    font-size: 1rem;
-    box-sizing: border-box;
-}
-
-
-button {
-    align-self: flex-start;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    margin-top: 0.5rem;
+/* Back + Delete Buttons */
+#backBtn {
+    background: none;
+    border: none;
+    color: #007acc;
+    font-size: 0.9rem;
     cursor: pointer;
+    margin-bottom: 1rem;
+}
+#backBtn:hover {
+    text-decoration: underline;
 }
 
+#deleteProjectBtn {
+    background: #ffdddd;
+    border: 1px solid #dd4444;
+    color: #a00;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+#deleteProjectBtn:hover {
+    background: #ffcccc;
+}
 
+/* Average Sentiment */
 #avgSent {
     font-weight: bold;
 }
 
 
-ul {
+.upload-form,
+.comment-form {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Pie Chart */
+#emotionChart {
+    display: block;
+    max-width: 100%;
+    margin: 1rem auto;
+}
+
+ul#commentList {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-li {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 0.5rem;
+ul#commentList li {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
 }
 
+ul#commentList li strong {
+    display: block;
+    margin-bottom: 0.5rem;
+}
 
+ul#commentList li em {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+/* Controls (Edit/Delete) */
 .controls {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 0.5rem;
 }
-
 .controls button {
     flex: 1 1 auto;
     min-width: 4rem;
     font-size: 0.9rem;
+    padding: 0.5rem;
+    border-radius: 4px;
 }
-#backBtn {
-    margin-bottom: 1rem;
-    background: none;
+
+/* Edit Button Style */
+.controls button[data-action="edit"] {
+    background: #007acc;
+    color: #fff;
     border: none;
-    color: #007acc;
-    font-size: 0.9rem;
-    cursor: pointer;
 }
-#backBtn:hover {
-    text-decoration: underline;
-}
-#deleteProjectBtn {
-    background: #ffdddd;
-    border: 1px solid #dd4444;
-    color: #a00;
-    padding: 0.4rem 0.8rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
-}
-#deleteProjectBtn:hover {
-    background: #ffcccc;
-}
-#emotionChart {
-    display: block;
-    max-width: 100%;
-    margin: 1rem 0;
+.controls button[data-action="edit"]:hover {
+    background: #005f99;
 }
 
+/* Delete Button Style */
+.controls button[data-action="delete"] {
+    background: #e05a5a;
+    color: #fff;
+    border: none;
+}
+.controls button[data-action="delete"]:hover {
+    background: #b44444;
+}
 
+.hidden {
+    display: none !important;
+}
 
-@media (max-width: 30rem) {
-    button {
-        width: 100%;
+/* Responsive */
+@media (max-width: 700px) {
+    #projectLogin,
+    #commentsSection {
+        padding: 1rem;
+    }
+    ul#commentList li {
+        padding: 0.75rem;
     }
 }
