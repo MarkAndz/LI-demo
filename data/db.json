@@ -9,5 +9,14 @@
       }
     }
   ],
-  "nextId": 2
+  "nextId": 2,
+  "projects": [
+    {
+      "id": 1,
+      "name": "Starter",
+      "passwordHash": "$2b$12$TDjcU.pLcEVfRZuYn7bVeOn9pbQ2JYGz3QWqDICI/aU27AxT.Btfm"
+    }
+  ],
+  "nextProjectId": 2,
+  "nextCommentId": 1
 }

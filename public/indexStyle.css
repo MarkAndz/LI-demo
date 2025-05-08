@@ -13,14 +13,55 @@ body {
 }
 
 
+h1, h2 {
+    margin-bottom: 1rem;
+}
+
+
+#projectLogin {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#projectLogin label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+#projectSelect,
+#projectPassword {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-top: 0.25rem;
+    box-sizing: border-box;
+}
+#projectCreate {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+#projectCreate input,
+#projectCreate button {
+    width: auto;
+}
+#createFeedback {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+
 form {
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
 }
 
-
-input {
+input[name="text"] {
     width: 100%;
     padding: 0.5rem;
     margin: 0.5rem 0;
@@ -34,12 +75,19 @@ button {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     margin-top: 0.5rem;
+    cursor: pointer;
 }
 
-/* Comment list */
+
+#avgSent {
+    font-weight: bold;
+}
+
+
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 li {
@@ -47,6 +95,7 @@ li {
     border-bottom: 1px solid #ddd;
     padding-bottom: 0.5rem;
 }
+
 
 .controls {
     display: flex;
@@ -60,6 +109,7 @@ li {
     min-width: 4rem;
     font-size: 0.9rem;
 }
+
 
 @media (max-width: 30rem) {
     button {

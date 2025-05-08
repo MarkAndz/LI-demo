@@ -6,7 +6,11 @@ const path   = require('path');
 const adapter = new FileSync(path.join(__dirname, 'data', 'db.json'));
 const db      = low(adapter);
 
-db.defaults({ comments: [], nextId: 1 })
-    .write();
+db.defaults({
+    projects: [],       //{id, name, passwordHash}
+    comments: [],       //{id, projectId, text, sentiment}
+    nextProjectId: 1,
+    nextCommentId: 1
+}).write();
 
 module.exports = db;

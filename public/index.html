@@ -2,19 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Comments Demo</title>
     <link rel="stylesheet" href="indexStyle.css">
 </head>
 <body>
-<h1>Posts & Comments Demo</h1>
+<section id="projectLogin">
+       <div id="projectCreate">
+         <h2>Create a Project</h2>
+         <input id="newProjectName" placeholder="Project Name">
+         <input id="newProjectPassword" type="password" placeholder="Project Password">
+         <button id="createProjectBtn">Create Project</button>
+         <p id="createFeedback" style="color:green;"></p>
+         <hr>
+      </div>
+    <h1>Select a Project</h1>
+    <label>
+        Project:
+        <select id="projectSelect"></select>
+    </label>
+    <label>
+        Password:
+        <input id="projectPassword" type="password" placeholder="Enter project password">
+    </label>
+    <button id="joinBtn">Join</button>
+</section>
 
-<section id="commentsSection">
-    <h2>Comments (50+ chars only)</h2>
+<!--Not shown until validated-->
+<section id="commentsSection" style="display:none;">
+    <h2 id="projectTitle">Comments (50+ chars only)</h2>
+    <p>Average sentiment: <span id="avgSent">0.00</span></p>
+
     <form id="commentForm">
         <input name="text" placeholder="Your comment" required>
         <button type="submit">Add Comment</button>
     </form>
+
     <ul id="commentList"></ul>
 </section>
 
