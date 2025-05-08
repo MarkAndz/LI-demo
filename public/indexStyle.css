@@ -120,6 +120,17 @@ li {
 #backBtn:hover {
     text-decoration: underline;
 }
+#deleteProjectBtn {
+    background: #ffdddd;
+    border: 1px solid #dd4444;
+    color: #a00;
+    padding: 0.4rem 0.8rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+#deleteProjectBtn:hover {
+    background: #ffcccc;
+}
 
 
 

@@ -11,6 +11,8 @@ const avgSentEl        = document.getElementById('avgSent');
 const form             = document.getElementById('commentForm');
 const list             = document.getElementById('commentList');
 const backBtn = document.getElementById('backBtn');
+const deleteProjectBtn = document.getElementById('deleteProjectBtn');
+
 
 
 //New project
@@ -32,6 +34,38 @@ backBtn.addEventListener('click', () => {
     commentsSection.style.display = 'none';
     projectLogin.style.display    = '';
 });
+
+deleteProjectBtn.addEventListener('click', async () => {
+    if (!confirm('Are you sure you want to DELETE this project and all its comments?')) {
+        return;
+    }
+    //CALL delete
+    const res = await fetch(`/projects/${projectId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Project-Password': projectPwd
+        }
+    });
+
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        return alert(err.error || 'Failed to delete project.');
+    }
+
+    //Reset and go to projects screen
+    projectPassword.value   = '';
+    comments                = [];
+    avgSentEl.textContent   = '0.00';
+
+    commentsSection.style.display = 'none';
+    projectLogin.style.display    = '';
+
+    //Refresh project dropdown
+    await loadProjects();
+});
+
+
 
 
 
@@ -92,6 +126,7 @@ async function loadProjects() {
         .join('');
 }
 loadProjects();
+
 
 joinBtn.addEventListener('click', async () => {
     projectId  = projectSelect.value;

@@ -8,9 +8,10 @@ const bcrypt = require('bcrypt');
 const db     = require('./db');
 
 
-const { IamAuthenticator } = require('ibm-watson/auth');
-const NaturalLanguageUnderstandingV1 =
-    require('ibm-watson/natural-language-understanding/v1');
+const {
+    IamAuthenticator
+} = require('ibm-watson/auth');
+const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
 
 
 const app = express();
@@ -217,6 +218,26 @@ app.delete(
     }
 );
 
+app.delete(
+    '/projects/:projectId',
+    checkProjectAuth,
+    (req, res) => {
+        const pid = req.project.id;
+
+        //Remove project's comments
+        db.get('comments')
+            .remove({ projectId: pid })
+            .write();
+
+        //Remove project
+        db.get('projects')
+            .remove({ id: pid })
+            .write();
+
+        //Response. No content
+        res.status(204).end();
+    }
+);
 
 // load cert/key
 const options = {
