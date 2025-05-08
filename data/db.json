@@ -1,0 +1,13 @@
+{
+  "comments": [
+    {
+      "id": 1,
+      "text": "Hello what is happening here guys? I'm not happy with the development of this app.",
+      "sentiment": {
+        "label": "negative",
+        "score": -0.916368
+      }
+    }
+  ],
+  "nextId": 2
+}

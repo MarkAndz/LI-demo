@@ -1,7 +1,6 @@
 require('dotenv').config();
 const fs    = require('fs');
 const https = require('https');
-const http  = require('http');
 const path  = require('path');
 const express = require('express');
 const cors    = require('cors');
@@ -23,26 +22,26 @@ const nlu = new NaturalLanguageUnderstandingV1({
   authenticator: new IamAuthenticator({ apikey: process.env.IBM_NLU_APIKEY }),
   serviceUrl:    process.env.IBM_NLU_URL,
 });
+const db = require('./db');
 
-let comments = [];
-let nextId   = 1;
-
+// GET comments from db.json
 app.get('/comments', (req, res) => {
-  res.json(comments);
+    const comments = db.get('comments').value();
+    res.json(comments);
 });
 
 app.post('/comments', async (req, res, next) => {
     const { text = '' } = req.body;
     const trimmed = text.trim();
 
-    //Under 50char not accepted
+    // Under 50 chars: reject
     if (trimmed.length < 50) {
         return res
             .status(400)
             .json({ error: 'Comment must be at least 50 characters long' });
     }
 
-    //Run analysis
+    // Perform sentiment analysis
     let sentiment = { label: 'neutral', score: 0 };
     try {
         const nluRes = await nlu.analyze({
@@ -52,12 +51,17 @@ app.post('/comments', async (req, res, next) => {
         const doc = nluRes.result.sentiment.document;
         sentiment = { label: doc.label, score: doc.score };
     } catch (err) {
-        console.warn('NLU error, defaulting neutral:', err.message);
+        console.warn('NLU error, defaulting to neutral:', err.message);
     }
 
-    //Store comments
-    const comment = { id: nextId++, text: trimmed, sentiment };
-    comments.push(comment);
+    // Fetch and increment nextId in the DB
+    const id = db.get('nextId').value();
+    db.update('nextId', n => n + 1).write();
+
+    //Persist comment
+    const comment = { id, text: trimmed, sentiment };
+    db.get('comments').push(comment).write();
+
     res.status(201).json(comment);
 });
 
@@ -66,26 +70,39 @@ app.post('/comments', async (req, res, next) => {
 
 
 app.put('/comments/:id', (req, res) => {
-  const id  = Number(req.params.id);
-  const idx = comments.findIndex(c => c.id === id);
-  if (idx === -1) {
-    return res.status(404).json({ error: 'Comment not found' });
-  }
-  comments[idx] = { ...comments[idx], ...req.body };
-  console.log('Updated comment:', comments[idx]);
-  res.json(comments[idx]);
+    const id = Number(req.params.id);
+
+    //Check if exists
+    const existing = db.get('comments').find({ id }).value();
+    if (!existing) {
+        return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    //Update
+    const updated = db.get('comments')
+        .find({ id })
+        .assign({ text: req.body.text })
+        .write();
+
+    res.json(updated);
 });
 
-// DELETE /comments/:id
+//DELETE by ID
 app.delete('/comments/:id', (req, res) => {
-  const idBefore = comments.length;
-  comments = comments.filter(c => c.id !== Number(req.params.id));
-  if (comments.length === idBefore) {
-    return res.status(404).json({ error: 'Comment not found' });
-  }
-  console.log('Deleted comment id:', req.params.id);
-  res.status(204).end();
+    const id = Number(req.params.id);
+
+    // Remove and get the removed array
+    const removed = db.get('comments')
+        .remove({ id })
+        .write();
+
+    if (removed.length === 0) {
+        return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    res.status(204).end();
 });
+
 
 // load cert/key
 const options = {
