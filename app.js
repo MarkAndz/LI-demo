@@ -1,4 +1,6 @@
 require('dotenv').config();
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 const fs    = require('fs');
 const https = require('https');
 const path  = require('path');
@@ -256,6 +258,62 @@ app.delete(
         }
 
         res.status(204).end();
+    }
+);
+
+//Comment import
+app.post(
+    '/projects/:projectId/import',
+    checkProjectAuth,
+    upload.single('file'),
+    async (req, res) => {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+        const text = req.file.buffer.toString('utf8');
+        const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l);
+        const imported = [];
+        const skipped = [];
+
+        for (const line of lines) {
+            if (line.length < 50) {
+                skipped.push({ text: line, reason: 'too short' });
+                continue;
+            }
+            // NLU
+            let sentiment = { label:'neutral', score:0 };
+            let emotion   = { sadness:0, joy:0, fear:0, disgust:0, anger:0 };
+            try {
+                const nluRes = await nlu.analyze({
+                    text: line,
+                    features: { sentiment:{}, emotion:{} }
+                });
+                const docSent = nluRes.result.sentiment.document;
+                sentiment = { label:docSent.label, score:docSent.score };
+                emotion   = nluRes.result.emotion.document.emotion;
+            } catch {
+                // leave defaults
+            }
+
+            //Persist
+            const cid = db.get('nextCommentId').value();
+            db.update('nextCommentId', n=>n+1).write();
+            const comment = {
+                id: cid,
+                projectId: req.project.id,
+                text: line,
+                sentiment,
+                emotion
+            };
+            db.get('comments').push(comment).write();
+            imported.push(comment);
+        }
+
+        res.json({
+            importedCount: imported.length,
+            skippedCount: skipped.length,
+            skipped
+        });
     }
 );
 

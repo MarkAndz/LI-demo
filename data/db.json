@@ -23,6 +23,22 @@
         "disgust": 0.017405,
         "anger": 0.053057
       }
+    },
+    {
+      "id": 10,
+      "projectId": 4,
+      "text": "This is truly a shame, they could've made it a lot better. No cheese on a pizza?? SINE WHEN ?!?!",
+      "sentiment": {
+        "label": "negative",
+        "score": -0.809681
+      },
+      "emotion": {
+        "sadness": 0.36226,
+        "joy": 0.327301,
+        "fear": 0.04499,
+        "disgust": 0.054903,
+        "anger": 0.075951
+      }
     }
   ],
   "nextId": 2,
@@ -39,5 +55,5 @@
     }
   ],
   "nextProjectId": 5,
-  "nextCommentId": 10
+  "nextCommentId": 11
 }

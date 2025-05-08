@@ -39,6 +39,14 @@
 
 <section id="commentsSection" style="display: none;">
     <button id="backBtn">← Back to Projects</button>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label>
+            Upload comments file:
+            <input type="file" name="file" accept=".txt" />
+        </label>
+        <button type="submit">Import</button>
+        <span id="uploadFeedback"></span>
+    </form>
     <button id="deleteProjectBtn">Delete Project</button>
     <h2 id="projectTitle">Comments (50+ chars only)</h2>
     <p>

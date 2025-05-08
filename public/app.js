@@ -12,6 +12,9 @@ const form             = document.getElementById('commentForm');
 const list             = document.getElementById('commentList');
 const backBtn          = document.getElementById('backBtn');
 const deleteProjectBtn = document.getElementById('deleteProjectBtn');
+const uploadForm     = document.getElementById('uploadForm');
+const uploadFeedback = document.getElementById('uploadFeedback');
+
 
 //Pie chart
 const emotionChartEl = document.getElementById('emotionChart');
@@ -80,6 +83,39 @@ deleteProjectBtn.addEventListener('click', async () => {
     projectLogin.style.display    = '';
     await loadProjects();
 });
+
+//Bulk upload
+uploadForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    uploadFeedback.textContent = '';
+
+    const fileInput = uploadForm.file;
+    if (!fileInput.files.length) {
+        return uploadFeedback.textContent = 'Please select a file.';
+    }
+
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    const res = await fetch(`/projects/${projectId}/import`, {
+        method: 'POST',
+        headers: { 'X-Project-Password': projectPwd },
+        body: formData
+    });
+    const result = await res.json();
+    if (!res.ok) {
+        return uploadFeedback.style.color = 'red',
+            uploadFeedback.textContent = result.error || 'Import failed.';
+    }
+
+    uploadFeedback.style.color = 'green';
+    uploadFeedback.textContent =
+        `Imported ${result.importedCount} comments, skipped ${result.skippedCount}.`;
+
+    await loadComments();   //refresh list + chart
+    uploadForm.reset();
+});
+
 
 // Create project
 createBtn.addEventListener('click', async () => {
