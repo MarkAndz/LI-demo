@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Comments Demo</title>
-    <link rel="stylesheet" href="indexStyle.css">
+    <link rel="stylesheet" href="indexStyle.css" />
 </head>
 <body>
 <section id="projectLogin">
-       <div id="projectCreate">
-         <h2>Create a Project</h2>
-         <input id="newProjectName" placeholder="Project Name">
-         <input id="newProjectPassword" type="password" placeholder="Project Password">
-         <button id="createProjectBtn">Create Project</button>
-         <p id="createFeedback" style="color:green;"></p>
-         <hr>
-      </div>
+    <div id="projectCreate">
+        <h2>Create a Project</h2>
+        <input id="newProjectName" placeholder="Project Name" />
+        <input
+                id="newProjectPassword"
+                type="password"
+                placeholder="Project Password"
+        />
+        <button id="createProjectBtn">Create Project</button>
+        <p id="createFeedback" style="color: green;"></p>
+        <hr />
+    </div>
+
     <h1>Select a Project</h1>
     <label>
         Project:
@@ -23,26 +28,37 @@
     </label>
     <label>
         Password:
-        <input id="projectPassword" type="password" placeholder="Enter project password">
+        <input
+                id="projectPassword"
+                type="password"
+                placeholder="Enter project password"
+        />
     </label>
     <button id="joinBtn">Join</button>
 </section>
 
-<!--Not shown until validated-->
-<section id="commentsSection" style="display:none;">
+<section id="commentsSection" style="display: none;">
     <button id="backBtn">← Back to Projects</button>
     <button id="deleteProjectBtn">Delete Project</button>
     <h2 id="projectTitle">Comments (50+ chars only)</h2>
-    <p>Average sentiment: <span id="avgSent">0.00</span></p>
+    <p>
+        Average sentiment:
+        <span id="avgSent">0.00</span>
+    </p>
+
+    <!-- Pie chart-->
+    <canvas id="emotionChart" width="150" height="150"></canvas>
 
     <form id="commentForm">
-        <input name="text" placeholder="Your comment" required>
+        <input name="text" placeholder="Your comment" required />
         <button type="submit">Add Comment</button>
     </form>
 
     <ul id="commentList"></ul>
 </section>
 
+<!-- Load chart -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script defer src="app.js"></script>
 </body>
 </html>

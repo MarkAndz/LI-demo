@@ -131,6 +131,11 @@ li {
 #deleteProjectBtn:hover {
     background: #ffcccc;
 }
+#emotionChart {
+    display: block;
+    max-width: 100%;
+    margin: 1rem 0;
+}
 
 
 
