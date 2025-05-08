@@ -28,29 +28,39 @@ app.get('/comments', (req, res) => {
 });
 
 app.post('/comments', async (req, res, next) => {
-    try {
-        const { text } = req.body;
-        // call IBM NLU
-            const nluRes = await nlu.analyze({
-              text,
-              features: { sentiment: {} }
-        });
-        const docSent = nluRes.result.sentiment.document;
+    const { text = '' } = req.body;
+    const trimmed = text.trim();
 
-                const comment = {
-              id: nextId++,
-              text,
-              sentiment: {
-              label: docSent.label,
-                  score: docSent.score
-            }
-       };
-        comments.push(comment);
-        res.status(201).json(comment);
-      } catch (err) {
-        next(err);
-      }
-  });
+    //Under 50char not accepted
+    if (trimmed.length < 50) {
+        return res
+            .status(400)
+            .json({ error: 'Comment must be at least 50 characters long' });
+    }
+
+    //Run analysis
+    let sentiment = { label: 'neutral', score: 0 };
+    try {
+        const nluRes = await nlu.analyze({
+            text: trimmed,
+            features: { sentiment: {} }
+        });
+        const doc = nluRes.result.sentiment.document;
+        sentiment = { label: doc.label, score: doc.score };
+    } catch (err) {
+        console.warn('NLU error, defaulting neutral:', err.message);
+    }
+
+    //Store comments
+    const comment = { id: nextId++, text: trimmed, sentiment };
+    comments.push(comment);
+    res.status(201).json(comment);
+});
+
+
+
+
+
 app.put('/comments/:id', (req, res) => {
   const id  = Number(req.params.id);
   const idx = comments.findIndex(c => c.id === id);
