@@ -39,25 +39,22 @@
     <button id="joinBtn">Join</button>
 </section>
 
-<!-- COMMENTS SECTION -->
 <section id="commentsSection" style="display: none;">
-    <!-- toolbar wrapper -->
+    <!-- top toolbar: back + delete -->
     <div class="toolbar">
         <button id="backBtn">← Back to Projects</button>
-        <form
-                id="uploadForm"
-                enctype="multipart/form-data"
-                style="display: inline-block; margin-left: 1rem;"
-        >
-            <label>
-                Upload comments file:
-                <input type="file" name="file" accept=".txt" />
-            </label>
-            <button type="submit">Import</button>
-            <span id="uploadFeedback"></span>
-        </form>
         <button id="deleteProjectBtn">Delete Project</button>
     </div>
+
+    <!-- upload form now under the toolbar -->
+    <form id="uploadForm" class="upload-form" enctype="multipart/form-data">
+        <label>
+            Upload comments file:
+            <input type="file" name="file" accept=".txt" />
+        </label>
+        <button type="submit">Import</button>
+        <span id="uploadFeedback"></span>
+    </form>
 
     <h2 id="projectTitle">Comments (50+ chars only)</h2>
     <p>
@@ -75,6 +72,8 @@
 
     <ul id="commentList"></ul>
 </section>
+
+
 
 <!-- Load chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
