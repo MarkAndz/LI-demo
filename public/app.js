@@ -34,35 +34,48 @@ let comments   = [];
 
 //Pie chart render
 function renderEmotionChart() {
-    // Sum up emotions
-    const totals = comments.reduce((agg, c) => {
-        Object.entries(c.emotion).forEach(([e, v]) => {
-            agg[e] = (agg[e] || 0) + v;
-        });
-        return agg;
-    }, {});
+    //suminu emotions
+    let totals = {};
+    for (let i = 0; i < comments.length; i++) {
+        let emo = comments[i].emotion;
+        for (let label in emo) {
+            if (totals[label]) {
+                totals[label] += emo[label];
+            } else {
+                totals[label] = emo[label];
+            }
+        }
+    }
 
-    const labels = Object.keys(totals);
-    const data   = Object.values(totals);
 
-    const config = {
+    let labels = [];
+    let data   = [];
+    for (let key in totals) {
+        labels.push(key);
+        data.push(totals[key]);
+    }
+
+    //
+    var ctx = emotionChartEl.getContext('2d');
+    if (emotionChart) {
+        emotionChart.destroy();
+    }
+    emotionChart = new Chart(ctx, {
         type: 'pie',
-        data: { labels, datasets: [{ data }] },
-        options: { plugins: { legend: { position: 'bottom' } } }
-    };
-
-    if (emotionChart) emotionChart.destroy();
-    emotionChart = new Chart(emotionChartEl.getContext('2d'), config);
+        data:
+            {
+            labels: labels,
+            datasets: [{
+                data: data
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
 }
-
-// Back to projects
-backBtn.addEventListener('click', () => {
-    projectPassword.value = '';
-    comments = [];
-    avgSentEl.textContent = '0.00';
-    commentsSection.style.display = 'none';
-    projectLogin.style.display    = '';
-});
 
 // Delete project
 deleteProjectBtn.addEventListener('click', async () => {
@@ -87,13 +100,17 @@ deleteProjectBtn.addEventListener('click', async () => {
 
 //Bulk upload
 uploadForm.addEventListener('submit', async e => {
+
+    //no full page restart por favor
     e.preventDefault();
+
     uploadFeedback.textContent = '';
 
     const fileInput = uploadForm.file;
     if (!fileInput.files.length) {
         return uploadFeedback.textContent = 'Please select a file.';
     }
+
 
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
@@ -138,11 +155,15 @@ createBtn.addEventListener('click', async () => {
     }
 
     createFeedback.textContent = '';
+
+    //Sending json + string
     const res = await fetch('/projects', {
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
         body: JSON.stringify({ name, password: pwd })
     });
+
+    //parsing json to something usable
     const payload = await res.json();
 
     if (!res.ok) {
@@ -164,6 +185,8 @@ async function loadProjects() {
         return alert('Failed to load projects');
     }
     const projects = await res.json();
+
+    //Objects turned to HTML+displayed
     projectSelect.innerHTML = projects
         .map(p => `<option value="${p.id}">${p.name}</option>`)
         .join('');
@@ -189,6 +212,7 @@ joinBtn.addEventListener('click', async () => {
     emotionChartEl.style.display = 'block';
     renderEmotionChart();
 
+    //Title from form + Comments
     projectTitleEl.textContent =
         `${projectSelect.selectedOptions[0].text} — Comments`;
 });
@@ -204,9 +228,7 @@ function authHeaders() {
     };
 }
 
-// Fetch & render comments + conditional chart
-// Fetch & render comments + conditional chart
-// Fetch & render comments + conditional chart
+
 async function loadComments() {
     const res = await fetch(`/projects/${projectId}/comments`, {
         headers: authHeaders()
@@ -227,27 +249,43 @@ async function loadComments() {
 
 
 
-// Render comment list (with sentiment & emotion)
+//Render comments
 function renderComments() {
+    //Clear inner html (comments)
     list.innerHTML = '';
-    comments.forEach(c => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-      <strong>${c.text}</strong><br>
-      <em>Sentiment:</em> ${c.sentiment.label}
-      (score: ${c.sentiment.score.toFixed(2)})<br>
-      <em>Emotions:</em> ${
-            Object.entries(c.emotion)
-                .map(([e, v]) => `${e}: ${v.toFixed(2)}`)
-                .join(', ')
-        }<br>
-      <div class="controls">
-        <button data-action="edit" data-id="${c.id}">Edit</button>
-        <button data-action="delete" data-id="${c.id}">Delete</button>
-      </div>
-    `;
+
+    //Looping over comments
+    for (var i = 0; i < comments.length; i++) {
+        var c = comments[i];
+        var li = document.createElement('li');
+
+        //Building inner html string
+        var html  = '<strong>' + c.text + '</strong><br>';
+        html += '<em>Sentiment:</em> '
+            + c.sentiment.label
+            + ' (score: '
+            + c.sentiment.score.toFixed(2)
+            + ')<br>';
+
+        html += '<em>Emotions:</em> ';
+        var parts = [];
+        var emoObj = c.emotion;
+        for (var key in emoObj) {
+            if (emoObj.hasOwnProperty(key)) {
+                parts.push(key + ': ' + emoObj[key].toFixed(2));
+            }
+        }
+        html += parts.join(', ') + '<br>';
+
+        html += '<div class="controls">';
+        html +=   '<button data-action="edit" data-id="' + c.id + '">Edit</button>';
+        html +=   '<button data-action="delete" data-id="' + c.id + '">Delete</button>';
+        html += '</div>';
+
+        // Insert and append
+        li.innerHTML = html;
         list.appendChild(li);
-    });
+    }
 }
 
 // Add a new comment
@@ -268,37 +306,74 @@ form.addEventListener('submit', async e => {
     form.reset();
 });
 
-// Edit/Delete comment
-list.addEventListener('click', async e => {
-    const btn = e.target;
-    const id  = btn.dataset.id;
+//Edit or delete
+list.addEventListener('click', async function(e) {
+    var btn     = e.target;
+    var action  = btn.getAttribute('data-action');
+    var commentId = btn.getAttribute('data-id');
 
-    if (btn.dataset.action === 'edit') {
-        const current = comments.find(c => c.id == id).text;
-        const newText = prompt('New text?', current);
-        if (!newText) return;
-
-        const res = await fetch(`/projects/${projectId}/comments/${id}`, {
-            method: 'PUT',
-            headers: authHeaders(),
-            body: JSON.stringify({ text: newText })
-        });
-        if (!res.ok) {
-            const err = await res.json();
-            return alert(err.error);
+    //edit
+    if (action === 'edit') {
+        var currentText = '';
+        for (var i = 0; i < comments.length; i++) {
+            if (comments[i].id == commentId) {
+                currentText = comments[i].text;
+                break;
+            }
         }
+
+
+        var newText = prompt('New text?', currentText);
+        if (!newText) {
+            return;
+        }
+
+        //send update
+        var updateRes = await fetch(
+            '/projects/' + projectId + '/comments/' + commentId,
+            {
+                method: 'PUT',
+                headers: authHeaders(),
+                body: JSON.stringify({ text: newText })
+            }
+        );
+        if (!updateRes.ok) {
+            var updateErr = await updateRes.json();
+            alert(updateErr.error);
+            return;
+        }
+
+        //reload
         await loadComments();
+        return;
     }
+    //back
+    backBtn.addEventListener('click', () => {
+        projectPassword.value = '';
+        comments = [];
+        avgSentEl.textContent = '0.00';
+        commentsSection.style.display = 'none';
+        projectLogin.style.display    = '';
+    });
 
-    if (btn.dataset.action === 'delete') {
-        const res = await fetch(`/projects/${projectId}/comments/${id}`, {
-            method: 'DELETE',
-            headers: authHeaders()
-        });
-        if (!res.ok) {
-            const err = await res.json();
-            return alert(err.error);
+    //delete
+    if (action === 'delete') {
+        var deleteRes = await fetch(
+            '/projects/' + projectId + '/comments/' + commentId,
+            {
+                method: 'DELETE',
+                headers: authHeaders()
+            }
+        );
+        if (!deleteRes.ok) {
+            var deleteErr = await deleteRes.json();
+            alert(deleteErr.error);
+            return;
         }
+
+        //reload
         await loadComments();
+        return;
     }
 });
+

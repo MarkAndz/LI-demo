@@ -1,8 +1,11 @@
+//loco db
 const low    = require('lowdb');
+//read+write
 const FileSync = require('lowdb/adapters/FileSync');
+//safe fsystem pathing
 const path   = require('path');
 
-//Data persistence in data/db.json
+//path to db
 const adapter = new FileSync(path.join(__dirname, 'data', 'db.json'));
 const db      = low(adapter);
 
@@ -13,4 +16,5 @@ db.defaults({
     nextCommentId: 1
 }).write();
 
+//exportuojuu
 module.exports = db;

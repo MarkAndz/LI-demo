@@ -11,17 +11,17 @@
     {
       "id": 13,
       "projectId": 4,
-      "text": "I'm having so much fun now!!!! But maybe we should do something else??",
+      "text": "I'm having so much fun now!! But maybe we should do something else???? We can think of something. BUT THIS IS BAD ! ! !",
       "sentiment": {
         "label": "positive",
-        "score": 0.967923
+        "score": 0.336534
       },
       "emotion": {
-        "sadness": 0.128964,
-        "joy": 0.513442,
-        "fear": 0.114878,
-        "disgust": 0.04545,
-        "anger": 0.064589
+        "sadness": 0.197601,
+        "joy": 0.400225,
+        "fear": 0.107709,
+        "disgust": 0.045117,
+        "anger": 0.090532
       }
     },
     {
@@ -41,19 +41,19 @@
       }
     },
     {
-      "id": 15,
-      "projectId": 4,
-      "text": "Hello guys, this is fun. I'm having so much fun now!!!! Let's do something else!!!!",
+      "id": 16,
+      "projectId": 7,
+      "text": "Hey guys, i'm very fond of the recent development. We should burn it all down!!!",
       "sentiment": {
         "label": "positive",
-        "score": 0.851352
+        "score": 0.37918
       },
       "emotion": {
-        "sadness": 0.090522,
-        "joy": 0.700258,
-        "fear": 0.045955,
-        "disgust": 0.022929,
-        "anger": 0.061879
+        "sadness": 0.134915,
+        "joy": 0.751285,
+        "fear": 0.071941,
+        "disgust": 0.014022,
+        "anger": 0.214776
       }
     }
   ],
@@ -78,8 +78,13 @@
       "id": 6,
       "name": "Projektas",
       "passwordHash": "$2b$12$4QbXYXbbJPNWzhubsadqquyAgum26yOuAFfaRp.2HonNAPgikZSzy"
+    },
+    {
+      "id": 7,
+      "name": "Pristatymas",
+      "passwordHash": "$2b$12$gDuFedsJbYfIbjDIAd/Ud.yuF56eZJdnFT06EuLgDWog0bjm6/Z3C"
     }
   ],
-  "nextProjectId": 7,
-  "nextCommentId": 16
+  "nextProjectId": 8,
+  "nextCommentId": 17
 }
