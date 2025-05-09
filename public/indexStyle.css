@@ -1,6 +1,3 @@
-/* ===================== */
-/* Base & Reset          */
-/* ===================== */
 html {
     font-size: 16px;
     box-sizing: border-box;
@@ -8,6 +5,7 @@ html {
 *, *::before, *::after {
     box-sizing: inherit;
 }
+
 body {
     font-family: sans-serif;
     margin: 2rem auto;
@@ -16,13 +14,8 @@ body {
     background: #f5f5f5;
     color: #333;
 }
-.hidden {
-    display: none !important;
-}
 
-/* ===================== */
-/* PROJECT LOGIN CARD    */
-/* ===================== */
+
 #projectLogin {
     background: #fff;
     border-radius: 8px;
@@ -30,25 +23,28 @@ body {
     padding: 1.5rem;
     margin-bottom: 2rem;
 }
-#projectLogin h2 {
+#projectLogin h2,
+#projectLogin h1 {
     margin: 0;
     font-size: 1.25rem;
     border-bottom: 1px solid #eee;
     padding-bottom: 0.5rem;
+}
+#projectLogin h1 {
+    margin-top: 1.5rem;
 }
 #projectLogin hr {
     border: none;
     border-top: 1px solid #eee;
     margin: 1.5rem 0;
 }
-#projectLogin h1 {
-    margin: 0;
-    font-size: 1.25rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 0.5rem;
-    margin-top: 1.5rem;
-}
 
+#projectLogin label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    margin-top: 1rem;
+}
 #projectLogin input,
 #projectLogin select {
     width: 100%;
@@ -58,13 +54,6 @@ body {
     border-radius: 4px;
     margin-top: 0.5rem;
 }
-#projectLogin label {
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
-    margin-top: 1rem;
-}
-
 #projectLogin button {
     width: 100%;
     padding: 0.6rem 1.2rem;
@@ -88,16 +77,13 @@ body {
 #joinBtn:hover {
     background: #1f7a33;
 }
-
 #createFeedback {
     margin-top: 0.5rem;
     font-size: 0.9rem;
     color: #28a745;
 }
 
-/* ===================== */
-/* COMMENTS SECTION CARD */
-/* ===================== */
+
 #commentsSection {
     background: #fff;
     border-radius: 8px;
@@ -106,66 +92,29 @@ body {
     margin-bottom: 2rem;
 }
 
-/* make toolbar items share a row */
+
 .toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
-
-/* give both buttons consistent pill style */
-#backBtn,
-#deleteProjectBtn {
+#backBtn {
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
     background: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+    border-radius: 4px;
     cursor: pointer;
 }
-
-/* back button hover */
 #backBtn:hover {
     background: #e8e8e8;
 }
-
-/* delete button colors */
-#deleteProjectBtn {
-    border-color: #e05a5a;
-    background: #e05a5a;
-    color: #fff;
-}
-#deleteProjectBtn:hover {
-    background: #b44444;
-}
-
-/* push upload-form below with its own spacing */
-.upload-form {
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.upload-form label {
-    font-weight: bold;
-    margin: 0;
-}
-.upload-form button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border: 1px solid #007acc;
-    background: #fff;
-    color: #007acc;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.upload-form button:hover {
-    background: #f0f8ff;
-}
-
-
-/* Delete project button */
 #deleteProjectBtn {
     padding: 0.6rem 1.2rem;
     font-size: 1rem;
@@ -179,12 +128,42 @@ body {
     background: #b44444;
 }
 
-/* ===================== */
-/* Project Title & Stats */
-/* ===================== */
+
+#uploadForm {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0 0 1rem 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1.5rem;
+}
+#uploadForm label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+#uploadForm input[type="file"] {
+    margin: 0;
+}
+#uploadForm button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #007acc;
+    background: #fff;
+    color: #007acc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#uploadForm button:hover {
+    background: #f0f8ff;
+}
+
 #projectTitle {
     margin-top: 0;
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 #avgSent {
     font-weight: bold;
@@ -197,7 +176,7 @@ body {
     margin: 1rem auto;
 }
 
-/* Add comment form */
+
 #commentForm {
     margin-top: 1rem;
     display: flex;
@@ -223,16 +202,14 @@ body {
     background: #005f99;
 }
 
-/* ===================== */
-/* Comment List          */
-/* ===================== */
+
 #commentList {
     list-style: none;
     padding: 0;
     margin: 1rem 0 0;
 }
 #commentList li {
-    padding: 1rem 0;
+    padding: 1rem 1rem 1rem 1rem;
     border-bottom: 1px solid #eee;
 }
 #commentList li strong {
@@ -245,7 +222,7 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Edit/Delete controls */
+
 .controls {
     display: flex;
     gap: 0.5rem;
@@ -274,18 +251,63 @@ body {
     background: #b44444;
 }
 
-/* ===================== */
-/* Responsive Tweaks     */
-/* ===================== */
-@media (max-width: 700px) {
+
+@media (max-width: 1024px) {
+    body {
+        padding: 0 0.5rem;
+    }
     #projectLogin,
     #commentsSection {
+        margin: 1rem auto;
         padding: 1rem;
+    }
+    .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #uploadForm {
+        flex-direction: column;
+        align-items: flex-start;
     }
     #commentForm {
         flex-direction: column;
     }
     .controls {
         flex-direction: column;
+    }
+}
+
+
+@media (max-width: 600px) {
+    html {
+        font-size: 14px;
+    }
+    body {
+        margin: 1rem auto;
+        padding: 0 0.5rem;
+    }
+    #projectLogin,
+    #commentsSection {
+        padding: 0.75rem;
+    }
+    #projectLogin h2,
+    #projectLogin h1,
+    #projectTitle {
+        font-size: 1.1rem;
+    }
+    #projectLogin input,
+    #projectLogin select,
+    #uploadForm input[type="file"],
+    #commentForm input {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+    button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+    .toolbar button,
+    #deleteProjectBtn {
+        width: 100%;
     }
 }

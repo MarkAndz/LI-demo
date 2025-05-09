@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- PROJECT LOGIN -->
+<!--login section-->
 <section id="projectLogin">
     <div id="projectCreate">
         <h2>Create a Project</h2>
@@ -40,13 +40,13 @@
 </section>
 
 <section id="commentsSection" style="display: none;">
-    <!-- top toolbar: back + delete -->
+    <!--back+delete-->
     <div class="toolbar">
         <button id="backBtn">← Back to Projects</button>
         <button id="deleteProjectBtn">Delete Project</button>
     </div>
 
-    <!-- upload form now under the toolbar -->
+    <!--uploadas-->
     <form id="uploadForm" class="upload-form" enctype="multipart/form-data">
         <label>
             Upload comments file:
@@ -62,8 +62,8 @@
         <span id="avgSent">0.00</span>
     </p>
 
-    <!-- Pie chart-->
-    <canvas id="emotionChart" width="150" height="150"></canvas>
+    <!--pieee-->
+    <canvas id="emotionChart" width="300" height="300" ></canvas>
 
     <form id="commentForm">
         <input name="text" placeholder="Your comment" required />
@@ -74,8 +74,6 @@
 </section>
 
 
-
-<!-- Load chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script defer src="app.js"></script>
 </body>

@@ -31,7 +31,8 @@ let projectId  = null;
 let projectPwd = '';
 let comments   = [];
 
-/** Renders the emotion pie chart */
+
+//Pie chart render
 function renderEmotionChart() {
     // Sum up emotions
     const totals = comments.reduce((agg, c) => {
@@ -174,19 +175,26 @@ joinBtn.addEventListener('click', async () => {
     projectId  = projectSelect.value;
     projectPwd = projectPassword.value.trim();
     if (!projectPwd) {
-        return alert('Please enter the project password.');
+        alert('Please enter the project password.');
+        return;
     }
 
-    try {
-        await loadComments();  // unified fetch + render + chart
-    } catch {
-        return; // loadComments has already alerted on failure
-    }
+    if (!await loadComments()) return;
 
+    // unhide section first
     projectLogin.style.display    = 'none';
     commentsSection.style.display = '';
-    projectTitleEl.textContent = `${projectSelect.selectedOptions[0].text} — Comments`;
+
+    // now that it's visible, we can draw
+    emotionChartEl.style.display = 'block';
+    renderEmotionChart();
+
+    projectTitleEl.textContent =
+        `${projectSelect.selectedOptions[0].text} — Comments`;
 });
+
+
+
 
 // Helper for authenticated headers
 function authHeaders() {
@@ -197,29 +205,27 @@ function authHeaders() {
 }
 
 // Fetch & render comments + conditional chart
+// Fetch & render comments + conditional chart
+// Fetch & render comments + conditional chart
 async function loadComments() {
     const res = await fetch(`/projects/${projectId}/comments`, {
         headers: authHeaders()
     });
     if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        alert(err.error || 'Failed to load comments');
-        throw new Error('Load failed');
+        const err = await res.json().catch(()=>({}));
+        alert(err.error||'Failed to load comments');
+        return false;
     }
-
     const { comments: data, averageSentiment } = await res.json();
     comments = data;
     avgSentEl.textContent = averageSentiment.toFixed(2);
-
     renderComments();
-
-    if (comments.length > 0) {
-        emotionChartEl.style.display = '';
-        renderEmotionChart();
-    } else {
-        emotionChartEl.style.display = 'none';
-    }
+    renderEmotionChart();
+    return true;
 }
+
+
+
 
 // Render comment list (with sentiment & emotion)
 function renderComments() {

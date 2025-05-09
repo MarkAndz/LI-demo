@@ -9,35 +9,51 @@
       }
     },
     {
-      "id": 9,
+      "id": 13,
       "projectId": 4,
-      "text": "Hello what is happening here guys? I'm not happy with the development of this app.",
+      "text": "I'm having so much fun now!!!! But maybe we should do something else??",
       "sentiment": {
-        "label": "negative",
-        "score": -0.916368
+        "label": "positive",
+        "score": 0.967923
       },
       "emotion": {
-        "sadness": 0.125062,
-        "joy": 0.554547,
-        "fear": 0.106344,
-        "disgust": 0.017405,
-        "anger": 0.053057
+        "sadness": 0.128964,
+        "joy": 0.513442,
+        "fear": 0.114878,
+        "disgust": 0.04545,
+        "anger": 0.064589
       }
     },
     {
-      "id": 10,
-      "projectId": 4,
-      "text": "This is truly a shame, they could've made it a lot better. No cheese on a pizza?? SINE WHEN ?!?!",
+      "id": 14,
+      "projectId": 6,
+      "text": "I've had only problems with this project, so many delays. I hope they fix that!!! Please! !! !",
       "sentiment": {
         "label": "negative",
-        "score": -0.809681
+        "score": -0.66735
       },
       "emotion": {
-        "sadness": 0.36226,
-        "joy": 0.327301,
-        "fear": 0.04499,
-        "disgust": 0.054903,
-        "anger": 0.075951
+        "sadness": 0.162604,
+        "joy": 0.469927,
+        "fear": 0.115832,
+        "disgust": 0.0307,
+        "anger": 0.096363
+      }
+    },
+    {
+      "id": 15,
+      "projectId": 4,
+      "text": "Hello guys, this is fun. I'm having so much fun now!!!! Let's do something else!!!!",
+      "sentiment": {
+        "label": "positive",
+        "score": 0.851352
+      },
+      "emotion": {
+        "sadness": 0.090522,
+        "joy": 0.700258,
+        "fear": 0.045955,
+        "disgust": 0.022929,
+        "anger": 0.061879
       }
     }
   ],
@@ -52,8 +68,18 @@
       "id": 4,
       "name": "Bandymas",
       "passwordHash": "$2b$12$xLyh5MU6zpzQofMpyfQTlOmTFgRnbG0fAqhROwm6eJvRbtDSb76sq"
+    },
+    {
+      "id": 5,
+      "name": "sdasdasd",
+      "passwordHash": "$2b$12$vbZnSzQ8jwf/.6eNOXqznOhygDLGimDCGtILIDhgV5OiJtQfTqxqi"
+    },
+    {
+      "id": 6,
+      "name": "Projektas",
+      "passwordHash": "$2b$12$4QbXYXbbJPNWzhubsadqquyAgum26yOuAFfaRp.2HonNAPgikZSzy"
     }
   ],
-  "nextProjectId": 5,
-  "nextCommentId": 11
+  "nextProjectId": 7,
+  "nextCommentId": 16
 }
