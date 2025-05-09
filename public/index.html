@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Comments Demo</title>
+    <link rel="stylesheet" href="indexStyle.css" />
+</head>
+<body>
+
+<section id="projectLogin">
+    <div id="projectCreate">
+        <h2>Create a Project</h2>
+        <input id="newProjectName" placeholder="Project Name" />
+        <input
+                id="newProjectPassword"
+                type="password"
+                placeholder="Project Password"
+        />
+        <button id="createProjectBtn">Create Project</button>
+        <p id="createFeedback" style="color: green;"></p>
+        <hr />
+    </div>
+
+    <h1>Select a Project</h1>
+    <label>
+        Project:
+        <select id="projectSelect"></select>
+    </label>
+    <label>
+        Password:
+        <input
+                id="projectPassword"
+                type="password"
+                placeholder="Enter project password"
+        />
+    </label>
+    <button id="joinBtn">Join</button>
+</section>
+
+<section id="commentsSection" style="display: none;">
+    <div class="toolbar">
+        <button id="backBtn">← Back to Projects</button>
+        <button id="deleteProjectBtn">Delete Project</button>
+    </div>
+    <form id="uploadForm" class="upload-form" enctype="multipart/form-data">
+        <label>
+            Upload comments file:
+            <input type="file" name="file" accept=".txt" />
+        </label>
+        <button type="submit">Import</button>
+        <span id="uploadFeedback"></span>
+    </form>
+
+    <h2 id="projectTitle">Comments (50+ chars only)</h2>
+    <p>
+        Average sentiment:
+        <span id="avgSent">0.00</span>
+    </p>
+
+    <!--pieee-->
+    <canvas id="emotionChart" width="300" height="300" ></canvas>
+
+    <form id="commentForm">
+        <input name="text" placeholder="Your comment" required />
+        <button type="submit">Add Comment</button>
+    </form>
+
+    <ul id="commentList"></ul>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer src="app.js"></script>
+</body>
+</html>
