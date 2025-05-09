@@ -83,8 +83,13 @@
       "id": 7,
       "name": "Pristatymas",
       "passwordHash": "$2b$12$gDuFedsJbYfIbjDIAd/Ud.yuF56eZJdnFT06EuLgDWog0bjm6/Z3C"
+    },
+    {
+      "id": 8,
+      "name": "Marko picerija",
+      "passwordHash": "$2b$12$KetWX.j//NnGPvqJXRIU/O92pgcaA/iOxhUmMulbya8Qb89CKuExi"
     }
   ],
-  "nextProjectId": 8,
-  "nextCommentId": 17
+  "nextProjectId": 9,
+  "nextCommentId": 18
 }

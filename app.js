@@ -96,6 +96,7 @@ async function checkProjectAuth(req, res, next) {
     const password  = req.headers['x-project-password'] || '';
     const proj      = db.get('projects').find({ id: projectId }).value();
 
+
     //OH NO!
     if (!proj) {
         return res.status(404).json({ error: 'Project not found : ((' });
@@ -261,7 +262,6 @@ app.post('/projects/:projectId/import',
             res.status(400).json({ error: 'No file uploaded' });
             return;
         }
-
         //spliting
         let text = req.file.buffer.toString('utf8');
         let rawLines = text.split(/\r?\n/);

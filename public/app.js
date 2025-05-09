@@ -188,8 +188,7 @@ async function loadProjects() {
 
     //Objects turned to HTML+displayed
     projectSelect.innerHTML = projects
-        .map(p => `<option value="${p.id}">${p.name}</option>`)
-        .join('');
+        .map(p => `<option value="${p.id}">${p.name}</option>`).join('');
 }
 loadProjects();
 
@@ -204,23 +203,20 @@ joinBtn.addEventListener('click', async () => {
 
     if (!await loadComments()) return;
 
-    // unhide section first
+    //unhide section first
     projectLogin.style.display    = 'none';
     commentsSection.style.display = '';
 
-    // now that it's visible, we can draw
+    //Piesiammm
     emotionChartEl.style.display = 'block';
     renderEmotionChart();
 
-    //Title from form + Comments
-    projectTitleEl.textContent =
-        `${projectSelect.selectedOptions[0].text} — Comments`;
+    //Title from form +comm
+    projectTitleEl.textContent = `${projectSelect.selectedOptions[0].text} — Comments`;
 });
 
 
-
-
-// Helper for authenticated headers
+//sumuoju headerį authui
 function authHeaders() {
     return {
         'Content-Type': 'application/json',
@@ -228,7 +224,7 @@ function authHeaders() {
     };
 }
 
-
+//Loadinu comments
 async function loadComments() {
     const res = await fetch(`/projects/${projectId}/comments`, {
         headers: authHeaders()
@@ -245,8 +241,6 @@ async function loadComments() {
     renderEmotionChart();
     return true;
 }
-
-
 
 
 //Render comments
